@@ -6,7 +6,8 @@
 - 😄 Pronouns: ...
 - ⚡ Fun fact: ...
 
-[![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=AndyC00)](https://github.com/anuraghazra/github-readme-stats)
+![Summary Card](https://github-profile-summary-cards.vercel.app/api/cards/profile-details?username=AndyC00&theme=solarized_dark)
+
 
 <!---
 AndyC00/AndyC00 is a ✨ special ✨ repository because its `README.md` (this file) appears on your GitHub profile.
