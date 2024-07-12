@@ -2,9 +2,8 @@
 - 👀 I’m interested in Programming & Photograghy
 - 🌱 I’m currently learning Programming and Unity Engine.
 - 💞️ I’m looking to collaborate on Programming!
-- 📫 How to reach me [...](https://www.linkedin.com/in/jinzhi-chen-a36981172/)
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
+- 📫 Welcome to reach me [...](https://www.linkedin.com/in/jinzhi-chen-a36981172/)
+
 
 ![Summary Card](https://github-profile-summary-cards.vercel.app/api/cards/profile-details?username=AndyC00&theme=solarized_dark)
 
