@@ -1,6 +1,6 @@
 - 👋 Hi, I’m Andy Chen
 - 👀 I’m interested in Programming & Photograghy
-- 🌱 I’m currently learning Programming and Unity Engine.
+- 🌱 I’m currently learning C++ and Unity Engine.
 - 💞️ I’m looking to collaborate on Programming!
 - 📫 Welcome to reach me [...](https://www.linkedin.com/in/jinzhi-chen-a36981172/)
 
