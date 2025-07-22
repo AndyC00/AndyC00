@@ -1,6 +1,6 @@
 - 👋 Hi, I’m Andy Chen
-- 👀 I’m interested in Programming & Photograghy
-- 🌱 I’m currently learning JavaScript, C# and React.
+- 👀 I’m interested in Gaming & Programming 
+- 🌱 I’m currently sharpen my skills in C# and React.
 - 💞️ I’m looking to collaborate on Programming!
 - 📫 Welcome to reach me [...](https://www.linkedin.com/in/jinzhi-chen-a36981172/)
 
