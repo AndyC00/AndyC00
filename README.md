@@ -4,9 +4,9 @@
 - 💞️ I’m looking to collaborate on Programming!
 - 📫 Welcome to reach me [...](https://www.linkedin.com/in/jinzhi-chen-a36981172/)
 
-
+<!---
 ![Summary Card](https://github-profile-summary-cards.vercel.app/api/cards/profile-details?username=AndyC00&theme=solarized_dark)
-
+--->
 
 <!---
 AndyC00/AndyC00 is a ✨ special ✨ repository because its `README.md` (this file) appears on your GitHub profile.
