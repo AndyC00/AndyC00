@@ -4,7 +4,7 @@
 - 💞️ I’m looking to collaborate on Programming!
 - 💻 Welcome to visit my personal website [...](https://andyc00.github.io/)
 - ⭐️ And my React projects [...](https://andyc00.github.io/React_MiniGames/)
-- 📫 Welcome to reach me [...](https://www.linkedin.com/in/jinzhi-chen-a36981172/)
+- 📫 Feel free to reach me [...](https://www.linkedin.com/in/jinzhi-chen-a36981172/)
 
 
 [![](https://raw.githubusercontent.com/AndyC00/AndyC00/main/profile-summary-card-output/solarized_dark/0-profile-details.svg)](https://github.com/vn7n24fzkq/github-profile-summary-cards)
