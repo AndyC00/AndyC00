@@ -3,7 +3,8 @@
 - 🌱 I’m currently sharpen my skills in C# and React.
 - 💞️ I’m looking to collaborate on Programming!
 - 💻 Welcome to visit my personal website [...](https://andyc00.github.io/)
-- ⭐️ And my React projects [...](https://andyc00.github.io/React_MiniGames/)
+- ⭐️ My React Mini Games [...](https://andyc00.github.io/React_MiniGames/)
+- 🏊🏻‍♀️ And the current web app I'm working on: Habit Tracker [...](https://a-habit-tracker.netlify.app/)
 - 📫 Feel free to reach me [...](https://www.linkedin.com/in/jinzhi-chen-a36981172/)
 
 
