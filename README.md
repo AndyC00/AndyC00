@@ -4,7 +4,8 @@
 - 💞️ I’m looking to collaborate on Programming!
 - 💻 Welcome to visit my personal website [...](https://andyc00.github.io/)
 - ⭐️ My React Mini Games [...](https://andyc00.github.io/React_MiniGames/)
-- 🏊🏻‍♀️ And the current web app I'm working on: Habit Tracker [...](https://a-habit-tracker.netlify.app/)
+- 🏊🏻‍♀️ A habit recording tool: Habit Tracker [...](https://a-habit-tracker.netlify.app/)
+- 🎮 And a published AI game I have developed! [...](https://store.steampowered.com/app/4615410/Everburning_Dark/?beta=0)
 - 📫 Feel free to reach me [...](https://www.linkedin.com/in/jinzhi-chen-a36981172/)
 
 
