@@ -1,6 +1,8 @@
 - 👋 Hi, I’m Andy Chen
 - 👀 I’m interested in Gaming & Programming 
 - 🌱 I’m currently sharpen my skills in Software Architecture and programming frameworks
+<br/>
+
 - 💻 Welcome to visit my personal website [...](https://andyc00.github.io/)
 - ⭐️ My React Mini Games [...](https://andyc00.github.io/React_MiniGames/)
 - 🏊🏻‍♀️ A habit recording tool: Habit Tracker [...](https://a-habit-tracker.netlify.app/)
@@ -8,6 +10,7 @@
 <br/>
 
 - 📫 Feel free to reach me [...](https://www.linkedin.com/in/jinzhi-chen-a36981172/)
+<br/>
 
 [![](https://raw.githubusercontent.com/AndyC00/AndyC00/main/profile-summary-card-output/solarized_dark/0-profile-details.svg)](https://github.com/vn7n24fzkq/github-profile-summary-cards)
 [![](https://raw.githubusercontent.com/AndyC00/AndyC00/main/profile-summary-card-output/solarized_dark/1-repos-per-language.svg)](https://github.com/vn7n24fzkq/github-profile-summary-cards) [![](https://raw.githubusercontent.com/AndyC00/AndyC00/main/profile-summary-card-output/solarized_dark/2-most-commit-language.svg)](https://github.com/vn7n24fzkq/github-profile-summary-cards)
