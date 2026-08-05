@@ -6,6 +6,7 @@
 - 🏊🏻‍♀️ A habit recording tool: Habit Tracker [...](https://a-habit-tracker.netlify.app/)
 - 🎮 And a published AI game I have developed! [...](https://store.steampowered.com/app/4615410/Everburning_Dark/?beta=0)
 <br/>
+
 - 📫 Feel free to reach me [...](https://www.linkedin.com/in/jinzhi-chen-a36981172/)
 
 [![](https://raw.githubusercontent.com/AndyC00/AndyC00/main/profile-summary-card-output/solarized_dark/0-profile-details.svg)](https://github.com/vn7n24fzkq/github-profile-summary-cards)
