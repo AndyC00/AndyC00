@@ -1,10 +1,7 @@
 name: Trophy display
 
 on:
-  # 允许在 Actions 页面手动运行
   workflow_dispatch:
-
-  # 每周一自动更新
   schedule:
     - cron: "17 3 * * 1"
 
