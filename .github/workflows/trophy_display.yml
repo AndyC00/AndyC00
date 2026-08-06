@@ -21,15 +21,15 @@ jobs:
 
     steps:
       - name: Checkout profile repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Generate selected trophies
         uses: soulteary/github-profile-trophy-action@v1.0.0
         with:
           options: >-
-            username=${{ github.repository_owner }}&theme=nord&title=Reviews,Stars,Commits,Followers,PullRequest,Repositories&row=2&column=3
+            username=${{ github.repository_owner }}&theme=nord&title=Reviews,Stars,Commits,Followers,PullRequest,Repositories&row=1&column=6
           path: assets/trophy.svg
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.TROPHY_TOKEN }}
           version: v1.0.0
 
       - name: Commit and push trophy if changed
