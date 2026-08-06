@@ -1,41 +1,30 @@
 name: Trophy display
 
 on:
-  workflow_dispatch:
   schedule:
-    - cron: "17 3 * * 1"
+    - cron: "0 0 * * *"
+  workflow_dispatch:
 
 permissions:
   contents: write
 
 jobs:
-  generate-trophy:
+  update-trophy:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v7
+        uses: actions/checkout@v4
 
       - name: Generate trophy.svg
-        uses: soulteary/github-profile-trophy-action@v1.0.0
-        with:
-          options: 'username=${{ github.repository_owner }}&theme=nord&column=4&row=2&margin-w=15&margin-h=15'
-          path: assets/trophy.svg
-          token: ${{ secrets.TROPHY_TOKEN }}
-          version: v1.0.0
+        run: |
+          mkdir -p assets
+          curl -fsSL "https://github-profile-trophy.vercel.app/?username=AndyC00&theme=nord&title=Reviews,Stars,Commits,Followers,PullRequest,Repositories&column=3" -o assets/trophy.svg
 
-      - name: Commit generated SVG
-        shell: bash
+      - name: Commit and push if changed
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
           git add assets/trophy.svg
-
-          if git diff --cached --quiet; then
-            echo "trophy.svg has not changed."
-            exit 0
-          fi
-
-          git commit -m "chore: update GitHub trophy"
+          git diff --cached --quiet || git commit -m "Update trophy.svg"
           git push
