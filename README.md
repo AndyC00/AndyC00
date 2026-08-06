@@ -10,7 +10,7 @@
 - 🎮 And a published AI story game I have developed! [link on Steam](https://store.steampowered.com/app/4615410/Everburning_Dark/?beta=0)
 <br/>
 
-- 📫 Feel free to reach me [...](https://www.linkedin.com/in/jinzhi-chen-a36981172/)
+- 📫 Feel free to reach me on [Linkedin](https://www.linkedin.com/in/jinzhi-chen-a36981172/)
 <br/>
 
 [![](https://raw.githubusercontent.com/AndyC00/AndyC00/main/profile-summary-card-output/solarized_dark/0-profile-details.svg)](https://github.com/vn7n24fzkq/github-profile-summary-cards)
