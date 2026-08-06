@@ -2,6 +2,7 @@ name: Trophy display
 
 on:
   schedule:
+    # Runs daily at 00:00 UTC
     - cron: "0 0 * * *"
   workflow_dispatch:
 
@@ -16,15 +17,32 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Generate trophy.svg
+      - name: Generate selected trophy SVG
+        shell: bash
         run: |
           mkdir -p assets
-          curl -fsSL "https://github-profile-trophy.vercel.app/?username=AndyC00&theme=nord&title=Reviews,Stars,Commits,Followers,PullRequest,Repositories&column=3" -o assets/trophy.svg
+
+          curl \
+            --fail \
+            --silent \
+            --show-error \
+            --location \
+            --retry 3 \
+            "https://github-profile-trophy.vercel.app/?username=${{ github.repository_owner }}&theme=nord&title=Reviews,Stars,Commits,Followers,PullRequest,Repositories&row=2&column=3" \
+            --output assets/trophy.svg
 
       - name: Commit and push if changed
+        shell: bash
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
           git add assets/trophy.svg
-          git diff --cached --quiet || git commit -m "Update trophy.svg"
+
+          if git diff --cached --quiet; then
+            echo "No trophy changes detected."
+            exit 0
+          fi
+
+          git commit -m "Update trophy.svg"
           git push
