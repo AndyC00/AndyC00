@@ -1,4 +1,4 @@
-name: Diagnose Summary Card Totals
+name: Diagnose Contribution Visibility
 
 on:
   workflow_dispatch:
@@ -8,31 +8,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Query contribution totals
+      - name: Query contribution visibility
         shell: bash
         env:
           GH_TOKEN: ${{ secrets.SUMMARY_CARD_TOKEN }}
           USERNAME: ${{ github.repository_owner }}
         run: |
           set -euo pipefail
-
-          echo "Checking token identity..."
-
-          viewer="$(
-            gh api graphql \
-              -f query='
-                query {
-                  viewer {
-                    login
-                  }
-                }
-              ' \
-              --jq '.data.viewer.login'
-          )"
-
-          echo "Token belongs to: ${viewer}"
-          echo "Profile being checked: ${USERNAME}"
-          echo
 
           mapfile -t years < <(
             gh api graphql \
@@ -49,8 +31,13 @@ jobs:
               --jq '.data.user.contributionsCollection.contributionYears[]'
           )
 
-          total_commits=0
-          total_contributions=0
+          grand_commits=0
+          grand_issues=0
+          grand_prs=0
+          grand_reviews=0
+          grand_repos=0
+          grand_restricted=0
+          grand_calendar=0
 
           for year in "${years[@]}"; do
             from="${year}-01-01T00:00:00Z"
@@ -70,6 +57,12 @@ jobs:
                         to: $to
                       ) {
                         totalCommitContributions
+                        totalIssueContributions
+                        totalPullRequestContributions
+                        totalPullRequestReviewContributions
+                        totalRepositoryContributions
+                        restrictedContributionsCount
+                        hasAnyRestrictedContributions
                         contributionCalendar {
                           totalContributions
                         }
@@ -82,29 +75,64 @@ jobs:
                 -f to="${to}"
             )"
 
-            commits="$(
-              jq -r \
-                '.data.user.contributionsCollection.totalCommitContributions' \
-                <<< "${result}"
-            )"
+            commits="$(jq -r \
+              '.data.user.contributionsCollection.totalCommitContributions' \
+              <<< "${result}")"
 
-            contributions="$(
-              jq -r \
-                '.data.user.contributionsCollection.contributionCalendar.totalContributions' \
-                <<< "${result}"
-            )"
+            issues="$(jq -r \
+              '.data.user.contributionsCollection.totalIssueContributions' \
+              <<< "${result}")"
 
-            printf '%s: commits=%s, all-contributions=%s\n' \
-              "${year}" \
-              "${commits}" \
-              "${contributions}"
+            prs="$(jq -r \
+              '.data.user.contributionsCollection.totalPullRequestContributions' \
+              <<< "${result}")"
 
-            total_commits=$((total_commits + commits))
-            total_contributions=$((total_contributions + contributions))
+            reviews="$(jq -r \
+              '.data.user.contributionsCollection.totalPullRequestReviewContributions' \
+              <<< "${result}")"
+
+            repos="$(jq -r \
+              '.data.user.contributionsCollection.totalRepositoryContributions' \
+              <<< "${result}")"
+
+            restricted="$(jq -r \
+              '.data.user.contributionsCollection.restrictedContributionsCount' \
+              <<< "${result}")"
+
+            calendar="$(jq -r \
+              '.data.user.contributionsCollection.contributionCalendar.totalContributions' \
+              <<< "${result}")"
+
+            visible_known=$((commits + issues + prs + reviews + repos))
+            other=$((calendar - visible_known - restricted))
+
+            echo
+            echo "${year}"
+            echo "  Commits:              ${commits}"
+            echo "  Issues:               ${issues}"
+            echo "  Pull requests:        ${prs}"
+            echo "  PR reviews:           ${reviews}"
+            echo "  Repositories created: ${repos}"
+            echo "  Restricted/private:   ${restricted}"
+            echo "  Other/unclassified:   ${other}"
+            echo "  Calendar total:       ${calendar}"
+
+            grand_commits=$((grand_commits + commits))
+            grand_issues=$((grand_issues + issues))
+            grand_prs=$((grand_prs + prs))
+            grand_reviews=$((grand_reviews + reviews))
+            grand_repos=$((grand_repos + repos))
+            grand_restricted=$((grand_restricted + restricted))
+            grand_calendar=$((grand_calendar + calendar))
           done
 
           echo
           echo "=========================================="
-          echo "TOTAL COMMIT CONTRIBUTIONS: ${total_commits}"
-          echo "TOTAL ALL CONTRIBUTIONS:    ${total_contributions}"
+          echo "TOTAL COMMITS:              ${grand_commits}"
+          echo "TOTAL ISSUES:               ${grand_issues}"
+          echo "TOTAL PULL REQUESTS:        ${grand_prs}"
+          echo "TOTAL PR REVIEWS:           ${grand_reviews}"
+          echo "TOTAL REPOSITORIES CREATED: ${grand_repos}"
+          echo "TOTAL RESTRICTED/PRIVATE:   ${grand_restricted}"
+          echo "TOTAL CALENDAR:             ${grand_calendar}"
           echo "=========================================="
