@@ -1,0 +1,110 @@
+name: Diagnose Summary Card Totals
+
+on:
+  workflow_dispatch:
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Query contribution totals
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.SUMMARY_CARD_TOKEN }}
+          USERNAME: ${{ github.repository_owner }}
+        run: |
+          set -euo pipefail
+
+          echo "Checking token identity..."
+
+          viewer="$(
+            gh api graphql \
+              -f query='
+                query {
+                  viewer {
+                    login
+                  }
+                }
+              ' \
+              --jq '.data.viewer.login'
+          )"
+
+          echo "Token belongs to: ${viewer}"
+          echo "Profile being checked: ${USERNAME}"
+          echo
+
+          mapfile -t years < <(
+            gh api graphql \
+              -f query='
+                query($login: String!) {
+                  user(login: $login) {
+                    contributionsCollection {
+                      contributionYears
+                    }
+                  }
+                }
+              ' \
+              -f login="${USERNAME}" \
+              --jq '.data.user.contributionsCollection.contributionYears[]'
+          )
+
+          total_commits=0
+          total_contributions=0
+
+          for year in "${years[@]}"; do
+            from="${year}-01-01T00:00:00Z"
+            to="${year}-12-31T23:59:59Z"
+
+            result="$(
+              gh api graphql \
+                -f query='
+                  query(
+                    $login: String!,
+                    $from: DateTime!,
+                    $to: DateTime!
+                  ) {
+                    user(login: $login) {
+                      contributionsCollection(
+                        from: $from,
+                        to: $to
+                      ) {
+                        totalCommitContributions
+                        contributionCalendar {
+                          totalContributions
+                        }
+                      }
+                    }
+                  }
+                ' \
+                -f login="${USERNAME}" \
+                -f from="${from}" \
+                -f to="${to}"
+            )"
+
+            commits="$(
+              jq -r \
+                '.data.user.contributionsCollection.totalCommitContributions' \
+                <<< "${result}"
+            )"
+
+            contributions="$(
+              jq -r \
+                '.data.user.contributionsCollection.contributionCalendar.totalContributions' \
+                <<< "${result}"
+            )"
+
+            printf '%s: commits=%s, all-contributions=%s\n' \
+              "${year}" \
+              "${commits}" \
+              "${contributions}"
+
+            total_commits=$((total_commits + commits))
+            total_contributions=$((total_contributions + contributions))
+          done
+
+          echo
+          echo "=========================================="
+          echo "TOTAL COMMIT CONTRIBUTIONS: ${total_commits}"
+          echo "TOTAL ALL CONTRIBUTIONS:    ${total_contributions}"
+          echo "=========================================="
