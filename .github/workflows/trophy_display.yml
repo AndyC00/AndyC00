@@ -1,37 +1,38 @@
-name: Trophy display
+name: Update GitHub Profile Trophies
 
 on:
   schedule:
-    # Runs daily at 00:00 UTC
+    # Run daily at 00:00 UTC
     - cron: "0 0 * * *"
+
+  # Allow manual execution from the Actions page
   workflow_dispatch:
 
 permissions:
   contents: write
+
+concurrency:
+  group: github-profile-trophy
+  cancel-in-progress: true
 
 jobs:
   update-trophy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout profile repository
         uses: actions/checkout@v4
 
-      - name: Generate selected trophy SVG
-        shell: bash
-        run: |
-          mkdir -p assets
+      - name: Generate selected trophies
+        uses: soulteary/github-profile-trophy-action@v1.0.0
+        with:
+          options: >-
+            username=${{ github.repository_owner }}&theme=nord&title=Reviews,Stars,Commits,Followers,PullRequest,Repositories&row=2&column=3
+          path: assets/trophy.svg
+          token: ${{ secrets.GITHUB_TOKEN }}
+          version: v1.0.0
 
-          curl \
-            --fail \
-            --silent \
-            --show-error \
-            --location \
-            --retry 3 \
-            "https://github-profile-trophy.vercel.app/?username=${{ github.repository_owner }}&theme=nord&title=Reviews,Stars,Commits,Followers,PullRequest,Repositories&row=2&column=3" \
-            --output assets/trophy.svg
-
-      - name: Commit and push if changed
+      - name: Commit and push trophy if changed
         shell: bash
         run: |
           git config user.name "github-actions[bot]"
@@ -44,5 +45,5 @@ jobs:
             exit 0
           fi
 
-          git commit -m "Update trophy.svg"
+          git commit -m "Update GitHub profile trophies"
           git push
