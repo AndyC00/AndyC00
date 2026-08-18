@@ -5,7 +5,6 @@ on:
     # Run daily at 00:00 UTC
     - cron: "0 0 * * *"
 
-  # Allow manual execution from the Actions page
   workflow_dispatch:
 
 permissions:
@@ -20,26 +19,161 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # ------------------------------------------------------------
+      # 1. Checkout your profile repository
+      # ------------------------------------------------------------
       - name: Checkout profile repository
         uses: actions/checkout@v7
 
-      - name: Generate selected trophies
+      # ------------------------------------------------------------
+      # 2. Checkout the official github-profile-trophy source
+      #
+      # We fetch full history, then pin to the commit containing
+      # the July 2026 GitHub GraphQL / stargazerCount fix.
+      # ------------------------------------------------------------
+      - name: Checkout trophy generator
+        uses: actions/checkout@v7
+        with:
+          repository: ryo-ma/github-profile-trophy
+          ref: master
+          fetch-depth: 0
+          path: .trophy-generator
+          persist-credentials: false
+
+      - name: Pin trophy generator to fixed version
         shell: bash
         run: |
           set -euo pipefail
 
-          URL="https://github-profile-trophy.vercel.app/?username=${{ github.repository_owner }}&theme=nord&title=MultiLanguage,Stars,Commits,Followers,PullRequest,Repositories&row=2&column=3"
+          git -C .trophy-generator checkout 0dbd570
 
-          curl \
-            --fail \
-            --silent \
-            --show-error \
-            --location \
-            --retry 3 \
-            "$URL" \
-            -o assets/trophy.new.svg
+          # Make sure we are using the fixed GraphQL implementation.
+          if ! grep -q "stargazerCount" \
+            .trophy-generator/src/Schemas/index.ts; then
+            echo "ERROR: expected stargazerCount fix not found."
+            exit 1
+          fi
 
-          grep -q "<svg" assets/trophy.new.svg
+      # ------------------------------------------------------------
+      # 3. Install Deno
+      # ------------------------------------------------------------
+      - name: Setup Deno
+        uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+
+      # ------------------------------------------------------------
+      # 4. Generate only the six trophies we want.
+      #
+      # No Vercel.
+      # No public trophy endpoint.
+      # GitHub API -> local SVG.
+      # ------------------------------------------------------------
+      - name: Generate selected trophies locally
+        shell: bash
+        env:
+          GITHUB_TOKEN1: ${{ github.token }}
+          GITHUB_TOKEN2: ${{ github.token }}
+          PROFILE_USER: ${{ github.repository_owner }}
+        run: |
+          set -euo pipefail
+
+          mkdir -p assets
+
+          cat > .trophy-generator/render_selected.ts <<'TS'
+          import { GithubApiService } from "./src/Services/GithubApiService.ts";
+          import { Card } from "./src/card.ts";
+          import { COLORS } from "./src/theme.ts";
+
+          const username = Deno.args[0];
+          const outputPath = Deno.args[1];
+
+          if (!username || !outputPath) {
+            console.error(
+              "Usage: render_selected.ts USERNAME OUTPUT_PATH",
+            );
+            Deno.exit(1);
+          }
+
+          console.log(`Generating trophies for ${username}...`);
+
+          const service = new GithubApiService();
+          const result = await service.requestUserInfo(username);
+
+          // Same basic validity check used by the upstream
+          // local SVG generator.
+          if (
+            !result ||
+            (result as any).totalCommits === undefined
+          ) {
+            console.error("Failed to fetch GitHub user information.");
+            console.error(result);
+            Deno.exit(2);
+          }
+
+          const titles = [
+            "MultiLanguage",
+            "Stars",
+            "Commits",
+            "Followers",
+            "PullRequest",
+            "Repositories",
+          ];
+
+          const card = new Card(
+            titles,
+            [],       // no rank filter
+            3,        // columns
+            2,        // rows
+            115,      // panel size
+            0,        // horizontal margin
+            0,        // vertical margin
+            false,    // background enabled
+            false,    // frame enabled
+          );
+
+          const theme =
+            (COLORS as any).nord ??
+            (COLORS as any).default;
+
+          const svg = card.render(
+            result as any,
+            theme,
+          );
+
+          await Deno.writeTextFile(
+            outputPath,
+            svg,
+          );
+
+          console.log(`Generated ${outputPath}`);
+          TS
+
+          cd .trophy-generator
+
+          deno run \
+            --allow-net \
+            --allow-env \
+            --allow-read \
+            --allow-write \
+            render_selected.ts \
+            "$PROFILE_USER" \
+            "$GITHUB_WORKSPACE/assets/trophy.new.svg"
+
+          cd "$GITHUB_WORKSPACE"
+
+          # --------------------------------------------------------
+          # Validate the generated SVG before replacing the old one.
+          # --------------------------------------------------------
+          if [ ! -s assets/trophy.new.svg ]; then
+            echo "ERROR: generated SVG is empty."
+            exit 1
+          fi
+
+          if ! grep -q "<svg" assets/trophy.new.svg; then
+            echo "ERROR: generated file is not an SVG."
+            exit 1
+          fi
 
           for trophy in \
             MultiLanguage \
@@ -50,19 +184,32 @@ jobs:
             Repositories
           do
             if ! grep -q "$trophy" assets/trophy.new.svg; then
-              echo "ERROR: Missing trophy: $trophy"
-              rm -f assets/trophy.new.svg
+              echo "ERROR: missing trophy: $trophy"
               exit 1
             fi
           done
 
-          mv assets/trophy.new.svg assets/trophy.svg
+          echo "All six trophies generated successfully."
 
+          mv \
+            assets/trophy.new.svg \
+            assets/trophy.svg
+
+      # ------------------------------------------------------------
+      # 5. Commit only when trophy.svg actually changed
+      # ------------------------------------------------------------
       - name: Commit and push trophy if changed
         shell: bash
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          set -euo pipefail
+
+          git config \
+            user.name \
+            "github-actions[bot]"
+
+          git config \
+            user.email \
+            "41898282+github-actions[bot]@users.noreply.github.com"
 
           git add assets/trophy.svg
 
@@ -71,5 +218,7 @@ jobs:
             exit 0
           fi
 
-          git commit -m "Update GitHub profile trophies"
+          git commit \
+            -m "Update GitHub profile trophies"
+
           git push
