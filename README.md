@@ -5,7 +5,7 @@
 
 - 💻 Welcome to visit my [personal website](https://andyc00.github.io/) with interactive components
 - ⭐️ My [React Mini Games](https://andyc00.github.io/React_MiniGames/)
-- 🏊🏻‍♀️ An habit recording tool with an AI advisor: [Habit Tracker](https://a-habit-tracker.netlify.app/)
+- 🏊🏻‍♀️ An AI reinforced habit recording tool: [Habit Tracker](https://a-habit-tracker.netlify.app/)
 - ✒️ A RAG (Retrieval-Augmented Generation) reinforced [AI learning tool](https://manatuapapa.org/)
 - 🎮 And a published AI story game I have developed! [link on Steam](https://store.steampowered.com/app/4615410/Everburning_Dark/?beta=0)
 <br/>
