@@ -29,5 +29,6 @@
 </div>
 
 <br/>
-  ![](https://tokscale.ai/api/embed/AndyC00/svg?template=terminal&color=YlGnBu&rank=percent)
-  ![](https://tokscale.ai/api/embed/AndyC00/svg?period=month&graph=blueprint)
+
+![](https://tokscale.ai/api/embed/AndyC00/svg?template=terminal&color=YlGnBu&rank=percent)
+![](https://tokscale.ai/api/embed/AndyC00/svg?period=month&graph=blueprint)
