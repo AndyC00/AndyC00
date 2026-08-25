@@ -46,4 +46,4 @@
   </a>
 </p>
 
-![Tokscale Tokens](https://tokscale.ai/api/badge/<username>/svg)
+![Tokscale Tokens](https://tokscale.ai/api/badge/AndyC00/svg)
