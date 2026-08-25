@@ -46,4 +46,11 @@
   </a>
 </p>
 
-![Tokscale Tokens](https://tokscale.ai/api/badge/AndyC00/svg)
+<p align="right">
+  <a href="https://tokscale.ai/u/AndyC00">
+    <img
+      src="https://tokscale.ai/api/badge/AndyC00/svg"
+      alt="Tokscale Tokens"
+    />
+  </a>
+</p>
