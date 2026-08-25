@@ -28,7 +28,20 @@
   </p>
 </div>
 
-<br/>
+<p align="center">
+  <a href="https://tokscale.ai/u/AndyC00">
+    <img
+      src="https://tokscale.ai/api/embed/AndyC00/svg?template=orbit&amp;color=YlGnBu&amp;rank=percent"
+      alt="Tokscale Orbit Stats"
+    />
+  </a>
+</p>
 
-![](https://tokscale.ai/api/embed/AndyC00/svg?template=terminal&color=YlGnBu&rank=percent)
-![](https://tokscale.ai/api/embed/AndyC00/svg?period=month&graph=blueprint)
+<p align="center">
+  <a href="https://tokscale.ai/u/AndyC00">
+    <img
+      src="https://tokscale.ai/api/embed/AndyC00/svg?template=blueprint&amp;period=month&amp;graph=1"
+      alt="Tokscale Monthly Blueprint Stats"
+    />
+  </a>
+</p>
