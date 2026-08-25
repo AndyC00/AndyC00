@@ -29,9 +29,5 @@
 </div>
 
 <br/>
-
-![](https://tokscale.ai/api/embed/AndyC00/svg?template=minimal&color=purple&graph=1)
-![](https://tokscale.ai/api/embed/AndyC00/svg?template=orbit&color=pink&rank=percent)
-![](https://tokscale.ai/api/embed/AndyC00/svg?template=terminal&color=green&theme=light)
-![](https://tokscale.ai/api/embed/AndyC00/svg?template=receipt&color=YlGnBu&graph=1)
-![](https://tokscale.ai/api/embed/AndyC00/svg?period=week&graph=1)
+  ![](https://tokscale.ai/api/embed/AndyC00/svg?template=terminal&color=YlGnBu&rank=percent)
+  ![](https://tokscale.ai/api/embed/AndyC00/svg?period=month&graph=blueprint)
