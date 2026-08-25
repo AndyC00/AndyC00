@@ -40,8 +40,10 @@
 <p align="center">
   <a href="https://tokscale.ai/u/AndyC00">
     <img
-      src="https://tokscale.ai/api/embed/AndyC00/svg?template=blueprint&amp;period=week&amp;graph=1"
+      src="https://tokscale.ai/api/embed/AndyC00/svg?template=blueprint&amp;period=all&amp;graph=1"
       alt="Tokscale Monthly Blueprint Stats"
     />
   </a>
 </p>
+
+![Tokscale Tokens](https://tokscale.ai/api/badge/<username>/svg)
